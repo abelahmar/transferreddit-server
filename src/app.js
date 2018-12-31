@@ -98,11 +98,9 @@ app.get("/getSaved/:username/:token", (req, res) => {
 
     getAllSavedPosts(username, after, token)
         .then(posts => {
-            console.log("in callback of getAll " + posts);
             res.send(posts);
         })
         .catch(error => {
-            console.log(error);
             res.send(error);
         });
 });
@@ -122,5 +120,27 @@ app.get("/getUsername/:token", (req, res) => {
             res.send(error);
         });
 });
+
+app.get('/unsave/:token/:name', (req, res) => {
+    var token = req.params.token;
+    var name = req.params.name;
+    const url = `https://oauth.reddit.com/api/unsave?id=${name}`;
+    // 
+    console.log(name);
+
+    http.post(url)
+    // .send('id', name)
+    .set('Authorization', 'Bearer ' + token, {type: "auto"})
+    .then(response => {
+        console.log(response.body);
+        console.log('is this even firing');
+        res.send(response.body);
+    })
+    .catch(error => {
+        console.log(error.body)
+        res.send(error.body);
+    })
+
+})
 
 app.listen(process.env.PORT || 8081);
