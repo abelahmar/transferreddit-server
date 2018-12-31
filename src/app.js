@@ -91,13 +91,17 @@ async function getAllSavedPosts(username, after, token) {
     return savedPosts;
 }
 
+var oldSavedPosts = [];
+
 app.get("/getSaved/:username/:token", (req, res) => {
     var token = req.params.token;
     var username = req.params.username;
     var after = "";
 
+
     getAllSavedPosts(username, after, token)
         .then(posts => {
+            oldSavedPosts = posts;
             res.send(posts);
         })
         .catch(error => {
@@ -121,25 +125,32 @@ app.get("/getUsername/:token", (req, res) => {
         });
 });
 
-app.get('/unsave/:token/:name', (req, res) => {
+app.get('/save/:token', (req, res) => {
     var token = req.params.token;
-    var name = req.params.name;
-    const url = `https://oauth.reddit.com/api/unsave?id=${name}`;
-    // 
-    console.log(name);
+    console.log(token);
+    var tempPosts = [];
 
-    http.post(url)
-    // .send('id', name)
-    .set('Authorization', 'Bearer ' + token, {type: "auto"})
+    http.get('https://gitlab.com/snippets/1793943/raw.json')
     .then(response => {
-        console.log(response.body);
-        console.log('is this even firing');
-        res.send(response.body);
+        console.log(response.body)
     })
-    .catch(error => {
-        console.log(error.body)
-        res.send(error.body);
-    })
+
+
+    oldSavedPosts.forEach(post => {
+        var name = post.name;
+        console.log(post.name);
+        const url = `https://oauth.reddit.com/api/save?id=${name}&category=`;
+        http.post(url)
+        .set('Authorization', 'Bearer ' + token, {type: "auto"})
+        .then(response => {
+            res.send(response.body);
+        })
+        .catch(error => {
+            res.send(error.body);
+        })
+        
+    });
+
 
 })
 
