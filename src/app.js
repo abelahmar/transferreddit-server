@@ -130,10 +130,10 @@ app.get('/save/:token', (req, res) => {
     console.log(token);
     var tempPosts = [];
 
-    http.get('https://gitlab.com/snippets/1793943/raw.json')
-    .then(response => {
-        console.log(response.body)
-    })
+    // http.get('https://gitlab.com/snippets/1793943/raw.json')
+    // .then(response => {
+    //     console.log(response.body)
+    // })
 
 
     oldSavedPosts.forEach(post => {
