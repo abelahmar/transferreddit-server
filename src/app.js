@@ -1,15 +1,7 @@
-/*
-example of reddit listing response
-
-
-
-*/
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-// const axios = require("axios"); //fuck axios and btoa
 const http = require("superagent");
 
 const { secret, redirectUri, clientId } = require("../../shared/AppData.js");
@@ -127,18 +119,11 @@ app.get("/getUsername/:token", (req, res) => {
 
 app.get('/save/:token', (req, res) => {
     var token = req.params.token;
-    console.log(token);
     var tempPosts = [];
-
-    // http.get('https://gitlab.com/snippets/1793943/raw.json')
-    // .then(response => {
-    //     console.log(response.body)
-    // })
 
 
     oldSavedPosts.forEach(post => {
         var name = post.name;
-        console.log(post.name);
         const url = `https://oauth.reddit.com/api/save?id=${name}&category=`;
         http.post(url)
         .set('Authorization', 'Bearer ' + token, {type: "auto"})
