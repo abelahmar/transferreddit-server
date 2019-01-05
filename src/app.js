@@ -4,7 +4,11 @@ const morgan = require("morgan");
 const cors = require("cors");
 const http = require("superagent");
 
-const { secret, redirectUri, clientId } = require("../../shared/AppData.js");
+// const { secret, redirectUri, clientId } = require("../../shared/AppData.js");
+
+const clientId = process.env.CLIENT_ID;
+const secret = process.env.SECRET;
+const redirectUri = process.env.REDIRECT_URI;
 
 const app = express();
 
@@ -138,5 +142,5 @@ app.get('/save/:token', (req, res) => {
 
 
 })
-
-app.listen(process.env.PORT || 8081);
+const port = process.env.PORT || 8081
+app.listen(port);
