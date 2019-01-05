@@ -56,10 +56,6 @@ app.get("/requestToken/:state/:code", (req, res) => {
 
 async function storeSaved(posts, whereToSave) {
     posts.forEach(post => {
-        if (!post.data.thumbnail) {
-            post.data.thumbnail =
-                "https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2F1000logos.net%2Fwp-content%2Fuploads%2F2017%2F05%2FColor-Reddit-Logo.jpg&f=1";
-        }
         whereToSave.push(post.data);
     });
 }
