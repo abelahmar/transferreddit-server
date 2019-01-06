@@ -47,9 +47,12 @@ app.get("/requestToken/:state/:code", (req, res) => {
         )
         .set("Content-Type", "application/x-www-form-urlencoded")
         .then(response => {
+            console.log('request token');
+            console.log(response.body);
             res.send(response.body);
         })
         .catch(error => {
+            console.log(error)
             res.send(error);
         });
 });
