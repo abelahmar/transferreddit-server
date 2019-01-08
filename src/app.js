@@ -141,5 +141,5 @@ app.get('/save/:token', (req, res) => {
 
 
 })
-const port = process.env.PORT || 8081
+const port = 8081 || process.env.PORT;
 app.listen(port);
