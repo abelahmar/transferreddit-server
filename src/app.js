@@ -36,6 +36,12 @@ app.get("/requestToken/:state/:code", (req, res) => {
         redirect_uri: redirectUri,
     };
 
+    console.log('**********************************************************************')
+    console.log(clientId);
+    console.log(secret);
+    console.log('**********************************************************************')
+    
+    
     var request = http
         .post(tokenUrl)
         .type("form")
