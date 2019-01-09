@@ -6,9 +6,9 @@ const http = require("superagent");
 
 // const { secret, redirectUri, clientId } = require("../../shared/AppData.js");
 
-const clientId = process.env.CLIENT_ID;
-const secret = process.env.SECRET;
-const redirectUri = process.env.REDIRECT_URI;
+const clientId = process.env.VUE_APP_CLIENT_ID;
+const secret = process.env.VUE_APP_SECRET;
+const redirectUri = process.env.VUE_APP_REDIRECT_URI;
 
 const app = express();
 
@@ -40,7 +40,7 @@ app.get("/requestToken/:state/:code", (req, res) => {
     console.log(clientId);
     console.log(secret);
     console.log('**********************************************************************')
-    
+
     
     var request = http
         .post(tokenUrl)
