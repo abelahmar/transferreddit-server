@@ -41,18 +41,15 @@ app.get("/requestToken/:state/:code", (req, res) => {
         .type("form")
         .send(form)
         .auth(clientId, secret)
-        .set(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
-        )
+        .set("User-Agent", "Transferreddit/v1.0 by Abdof")
         .set("Content-Type", "application/x-www-form-urlencoded")
         .then(response => {
-            console.log('request token');
+            console.log("request token");
             console.log(response.body);
             res.send(response.body);
         })
         .catch(error => {
-            console.log(error)
+            console.log(error);
             res.send(error);
         });
 });
@@ -72,7 +69,7 @@ async function getAllSavedPosts(username, after, token) {
         var posts = await http
             .get(url)
             .set("Authorization", "Bearer " + token, { type: "auto" })
-            .set("User-Agent", "reddit-transfer/v1.0 by paintballcore")
+            .set("User-Agent", "Transferreddit/v1.0 by Abdof")
             .set("Content-Type", "application/json")
             .then(response => {
                 after = response.body.data.after;
@@ -93,7 +90,6 @@ app.get("/getSaved/:username/:token", (req, res) => {
     var username = req.params.username;
     var after = "";
 
-
     getAllSavedPosts(username, after, token)
         .then(posts => {
             oldSavedPosts = posts;
@@ -110,7 +106,7 @@ app.get("/getUsername/:token", (req, res) => {
 
     http.get(url)
         .set("Authorization", "Bearer " + token, { type: "auto" })
-        .set("User-Agent", "reddit-transfer/v1.0 by paintballcore")
+        .set("User-Agent", "Transferreddit/v1.0 by Abdof")
         .set("Content-Type", "application/json")
         .then(response => {
             res.send(response.body);
@@ -120,26 +116,22 @@ app.get("/getUsername/:token", (req, res) => {
         });
 });
 
-app.get('/save/:token', (req, res) => {
+app.get("/save/:token", (req, res) => {
     var token = req.params.token;
     var tempPosts = [];
-
 
     oldSavedPosts.forEach(post => {
         var name = post.name;
         const url = `https://oauth.reddit.com/api/save?id=${name}&category=`;
         http.post(url)
-        .set('Authorization', 'Bearer ' + token, {type: "auto"})
-        .then(response => {
-            res.send(response.body);
-        })
-        .catch(error => {
-            res.send(error.body);
-        })
-        
+            .set("Authorization", "Bearer " + token, { type: "auto" })
+            .then(response => {
+                res.send(response.body);
+            })
+            .catch(error => {
+                res.send(error.body);
+            });
     });
-
-
-})
+});
 const port = process.env.PORT || 8081;
 app.listen(port);
